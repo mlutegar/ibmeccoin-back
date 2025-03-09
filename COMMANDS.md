@@ -15,7 +15,7 @@ $ git add .
 Comando para fazer commit dos arquivos:
 
 ```bash
-$ git commit -m "fix: corrigindo erro de lint" --no-verify
+$ git commit -m "feat: colocando react no projeto" --no-verify
 ```
 
 Comando para fazer push dos arquivos:

@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Um React - Aplicação Base</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Corrigir os caminhos para os arquivos estáticos -->
+        <script src="{% static 'bundle.js' %}" defer></script>
+        <link href="{% static 'style.css' %}" rel="stylesheet">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'imagens/icons/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'imagens/icons/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'imagens/icons/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'site.webmanifest' %}">
+    </head>
+    <body>
+        <noscript><p style="text-align: center;">Seu navegador não suporta JavaScript!</p></noscript>
+        <div id="root"></div>
+    </body>
+</html>

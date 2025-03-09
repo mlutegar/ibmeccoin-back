@@ -2,6 +2,14 @@ from datetime import timedelta
 
 from django.db import models
 
+class Aluno(models.Model):
+    nome = models.CharField(max_length=100)
+    matricula = models.IntegerField(primary_key=True, unique=True)
+    senha = models.CharField(max_length=20)
+    email = models.EmailField(max_length=50)
+
+    def __str__(self):
+        return self.nome
 
 class Tarefa(models.Model):
     """
