@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Tarefas{% endblock %}
+
+{% block content %}
+    <!-- Exibir situação do usuário -->
+    <div id="situacao-usuario">
+        <div class="titulo-situacao">
+            Situação Atual
+        </div>
+        <div class="secao-meio">
+            <div class="conteudo-situacao">
+                <div>Level 0{{ situacao.nivel }}</div>
+                <div>{{ situacao.get_nome_nivel }}</div>
+            </div>
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="aumentar">Aumentar Nível</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Botões para aumentar ou diminuir nível -->
+
+    </div>
+    <!-- Lista de tarefas do dia -->
+    <div id="tarefas-dia">
+        <div class="titulos-tarefa">
+            <div>
+                tarefas do dia
+            </div>
+            <div>
+                {{ hoje }}
+            </div>
+        </div>
+        <div>
+            {% for tarefa in tarefas_do_dia %}
+                <div class="tarefa">
+                    <div class="informacoes">
+                        <div class="prioridade">
+                            {{ forloop.counter }}
+                        </div>
+
+                        <div class="texto">
+                            <div>
+                                {{ tarefa.get_nome }}
+                            </div>
+                            <div>
+                                Próximo desafio - {{ tarefa.get_tempo_atual }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="iniciar">
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <input type="hidden" name="tarefa_id" value="{{ tarefa.id }}">
+                            <button type="submit" name="acao" value="aumentar">Iniciar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

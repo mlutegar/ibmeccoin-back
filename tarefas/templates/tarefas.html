@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <div id="botaoAdicionar">
+            tarefas
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M1 6H11M6 1V11" stroke="#D9D9D9" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"></path>
+            </svg>
+        </div>
+        {% for tarefa in tarefas %}
+            <div>
+                <div>
+                    <div class="tarefa-card">
+                        <div class="primeira-secao">
+                            <div class="checkbox">
+                                <label for="tarefa-{{ tarefa.id }}"></label>
+                                <input type="checkbox" id="tarefa-{{ tarefa.id }}">
+                                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" width="23" height="24"
+                                     viewBox="0 0 23 24" fill="none">
+                                    <path d="M0.5 12C0.5 5.92487 5.42487 1 11.5 1C17.5751 1 22.5 5.92487 22.5 12C22.5 18.0751 17.5751 23 11.5 23C5.42487 23 0.5 18.0751 0.5 12Z"
+                                          stroke="white"></path>
+                                </svg>
+                            </div>
+                            <div class="importancia">
+                                !!!!
+                            </div>
+                            <div class="tarefa-informacoes">
+                                <div class="nome">
+                                    {{ tarefa.nome }}
+                                </div>
+                                <div class="descricao">
+                                    {{ tarefa.descricao }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="estrela">
+                            <form method="POST" action="{% url 'adicionar_tarefa_ao_dia' tarefa.id %}">
+                                {% csrf_token %}
+                                <button type="submit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         viewBox="0 0 16 16" fill="none">
+                                        <g clip-path="url(#clip0_21_78)">
+                                            <path d="M9.00001 0H7.00001L5.51292 4.57681L0.700554 4.57682L0.0825195 6.47893L3.97581 9.30756L2.48873 13.8843L4.10677 15.0599L8.00002 12.2313L11.8933 15.0599L13.5113 13.8843L12.0242 9.30754L15.9175 6.47892L15.2994 4.57681H10.4871L9.00001 0Z"
+                                                  fill="#FFBC02"></path>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_21_78">
+                                                <rect width="16" height="16" fill="white"></rect>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="telaEscura" class="desativado"></div>
+
+    <div id="telaEdicao" class="telaEdicao desativado">
+        <div id="botaoFecharEdicao" class="botaovoltar">
+            <button>Voltar</button>
+        </div>
+        <div class="telaEdicaoConteudo">
+            <div id="titulo-popup-edicao" class="titulo">
+                Editar Tarefa
+            </div>
+            <div class="nome">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome-edicao" name="nome" placeholder="Digite o nome">
+            </div>
+            <div class="descricao">
+                <label for="descricao">Descrição</label>
+                <input type="text" id="descricao-edicao" name="descricao" placeholder="Digite a descrição">
+            </div>
+            <div class="importancia">
+                <label for="importancia">Importância</label>
+                <input type="text" id="importancia-edicao" name="importancia" placeholder="Digite a importância">
+            </div>
+            <div class="grupo">
+                <label for="grupo">Grupo</label>
+                <input type="text" id="grupo-edicao" name="grupo" placeholder="Digite o grupo">
+            </div>
+        </div>
+        <div class="concluir">
+            <button>Concluir</button>
+        </div>
+    </div>
+
+
+    <div id="telaAdicao" class="telaEdicao desativado">
+        <div id="botaoFecharAdicao" class="botaovoltar">
+            <button>Voltar</button>
+        </div>
+        <div class="telaEdicaoConteudo">
+            <div id="titulo-popup-adicao" class="titulo">
+                Adicionar Tarefa
+            </div>
+            <form method="POST" action="{% url 'criar_tarefa' %}">
+                {% csrf_token %}
+                <div class="nome">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome-adicao" name="nome" placeholder="Digite o nome">
+                </div>
+                <div class="descricao">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" id="descricao-adicao" name="descricao" placeholder="Digite a descrição">
+                </div>
+                <div class="importancia">
+                    <label for="importancia">Importância</label>
+                    <input type="text" id="importancia-adicao" name="importancia" placeholder="Digite a importância">
+                </div>
+                <div class="grupo">
+                    <label for="grupo">Grupo</label>
+                    <input type="text" id="grupo-adicao" name="grupo" placeholder="Digite o grupo">
+                </div>
+                <div class="concluir">
+                    <button type="submit">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+<script>
+    {% block scripts %}
+        function mostrarTelaEdicao(idTarefa) {
+            const telaEdicao = document.getElementById('telaEdicao');
+            const telaEscura = document.getElementById('telaEscura');
+            telaEdicao.classList.remove('desativado');
+            telaEscura.classList.remove('desativado');
+        }
+
+        function esconderTelaEdicao(idTarefa) {
+            const telaEdicao = document.getElementById('telaEdicao');
+            const telaEscura = document.getElementById('telaEscura');
+            telaEdicao.classList.add('desativado');
+            telaEscura.classList.add('desativado');
+        }
+
+        const abrirPopupEdicao = () => {
+            const tarefaCards = document.querySelectorAll('.tarefa-informacoes');
+
+            tarefaCards.forEach(tarefaCard => {
+                tarefaCard.addEventListener('click', () => {
+                    const idTarefa = tarefaCard.getAttribute('data-id');
+                    preencherCamposEdicao(idTarefa);
+                    mostrarTelaEdicao(idTarefa);
+                });
+            });
+
+            const botaoFechar = document.getElementById('botaoFecharEdicao');
+
+            botaoFechar.addEventListener('click', () => {
+                esconderTelaEdicao();
+            });
+        };
+
+        const abrirPopupAdicao = () => {
+            const botaoAdicionar = document.getElementById('botaoAdicionar');
+            const telaAdicao = document.getElementById('telaAdicao');
+            const telaEscura = document.getElementById('telaEscura');
+
+            botaoAdicionar.addEventListener('click', () => {
+                telaAdicao.classList.remove('desativado');
+                telaEscura.classList.remove('desativado');
+            });
+
+            const botaoFechar = document.getElementById('botaoFecharAdicao');
+
+            botaoFechar.addEventListener('click', () => {
+                telaAdicao.classList.add('desativado');
+                telaEscura.classList.add('desativado');
+            });
+        };
+
+        const preencherCamposEdicao = async (idTarefa) => {
+            try {
+                const response = await fetch("{% url 'obter_info_tarefa' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tarefa_id: idTarefa,
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message);
+                }
+
+                const nome = document.getElementById('nome-edicao');
+                const descricao = document.getElementById('descricao-edicao');
+                const importancia = document.getElementById('importancia-edicao');
+                const grupo = document.getElementById('grupo-edicao');
+
+                nome.value = data.nome;
+                descricao.value = data.descricao;
+                importancia.value = data.prioridade;
+                grupo.value = data.grupo;
+            } catch (error) {
+                console.error('Erro ao preencher campos de edição:', error);
+            }
+        };
+
+        const editarTarefa = () => {
+            console.log("passar...")
+        };
+
+        abrirPopupEdicao();
+        abrirPopupAdicao();
+    {% endblock %}
+</script>
