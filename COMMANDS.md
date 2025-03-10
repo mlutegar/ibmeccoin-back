@@ -26,6 +26,12 @@ $ git push --no-verify
 
 # DJANGO 
 
+Para criar um aplicativo:
+    
+```bash
+$ python manage.py startapp backend
+```
+
 Para atualizar o banco de dados, execute os comandos abaixo:
 
 ```bash
