@@ -15,7 +15,7 @@ $ git add .
 Comando para fazer commit dos arquivos:
 
 ```bash
-$ git commit -m "feat: colocando react no projeto" --no-verify
+$ git commit -m "feat: adicionando geração de token" --no-verify
 ```
 
 Comando para fazer push dos arquivos:
