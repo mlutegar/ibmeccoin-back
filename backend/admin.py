@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import User, Turma, MovimentacaoSaldo
+from .models import User, Turma, MovimentacaoSaldo, TokenIC
+
 
 # Personalizando a exibição do modelo User no admin
 class UserAdmin(admin.ModelAdmin):
@@ -25,3 +26,4 @@ class MovimentacaoSaldoAdmin(admin.ModelAdmin):
 
 # Registrando o modelo MovimentacaoSaldo com o MovimentacaoSaldoAdmin
 admin.site.register(MovimentacaoSaldo, MovimentacaoSaldoAdmin)
+admin.site.register(TokenIC)
