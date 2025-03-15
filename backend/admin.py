@@ -4,7 +4,7 @@ from .models import User, Turma, MovimentacaoSaldo, TokenIC
 
 # Personalizando a exibição do modelo User no admin
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'tipo', 'matricula', 'first_name', 'last_name', 'email')  # Exibindo alguns campos no admin
+    list_display = ('username', 'tipo', 'first_name', 'last_name', 'email')  # Exibindo alguns campos no admin
     search_fields = ('username', 'first_name', 'last_name', 'email')  # Campos que podem ser pesquisados
 
 # Registrando o modelo User com o UserAdmin

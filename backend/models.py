@@ -12,7 +12,6 @@ class User(AbstractUser):  # Agora usamos AbstractUser, herdando todas as funcio
         ("admin", "Administrador"),
     )
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, default="aluno")
-    matricula = models.IntegerField(unique=True, null=True, blank=True)  # Opcional para admin
 
     def __str__(self):
         return f"{self.username} - {self.tipo}"
@@ -38,12 +37,11 @@ class Turma(models.Model):
 
 
 class TokenIC(models.Model):
-    valor = models.CharField(max_length=255, unique=True)
     quantidade_ic = models.IntegerField()
     expiracao = models.DateTimeField()
 
     def __str__(self):
-        return f"Token {self.valor} - Expira em {self.expiracao}"
+        return f"Token de {self.quantidade_ic} expira em {self.expiracao}"
 
     def expirado(self):
         return now() > self.expiracao

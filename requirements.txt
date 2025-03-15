@@ -5,3 +5,5 @@ django-cors-headers
 drf-spectacular
 qrcode[pil]
 PyYAML
+drf-yasg
+django-rest-authtoken

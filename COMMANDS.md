@@ -15,7 +15,7 @@ $ git add .
 Comando para fazer commit dos arquivos:
 
 ```bash
-$ git commit -m "feat: adicionando geração de token" --no-verify
+$ git commit -m "feat: corrigindo geração de token" --no-verify
 ```
 
 Comando para fazer push dos arquivos:
@@ -124,3 +124,11 @@ Para entrar no shell do fly, execute o comando abaixo:
 fly ssh console
 ```
 Para sair bastar digitar `exit` e pressionar `Enter`.
+
+# Python
+
+Instalar os requisitos do projeto:
+
+```bash
+$ pip install -r requirements.txt
+```
