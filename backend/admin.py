@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Turma, MovimentacaoSaldo, TokenIC
+from .models import User, Turma, MovimentacaoSaldo, TokenIC, Grupo, Convite
 
 
 # Personalizando a exibição do modelo User no admin
@@ -18,12 +18,12 @@ class TurmaAdmin(admin.ModelAdmin):
 # Registrando o modelo Turma com o TurmaAdmin
 admin.site.register(Turma, TurmaAdmin)
 
-# Personalizando a exibição do modelo MovimentacaoSaldo no admin
 class MovimentacaoSaldoAdmin(admin.ModelAdmin):
     list_display = ('data_movimentacao', 'tipo', 'valor', 'aluno', 'turma')  # Exibindo detalhes da movimentação
     list_filter = ('tipo', 'turma')  # Filtros para tipo de movimentação e turma
     search_fields = ('aluno__username', 'turma__disciplina')  # Permitindo pesquisa pelos campos do aluno e turma
 
-# Registrando o modelo MovimentacaoSaldo com o MovimentacaoSaldoAdmin
 admin.site.register(MovimentacaoSaldo, MovimentacaoSaldoAdmin)
 admin.site.register(TokenIC)
+admin.site.register(Grupo)
+admin.site.register(Convite)

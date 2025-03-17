@@ -1,6 +1,4 @@
-from datetime import timedelta
-
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.timezone import now
 
@@ -16,6 +14,26 @@ class User(AbstractUser):  # Agora usamos AbstractUser, herdando todas as funcio
     def __str__(self):
         return f"{self.username} - {self.tipo}"
 
+
+class Grupo(models.Model):
+    nome = models.CharField(max_length=50)
+    limite_aluno = models.IntegerField()
+    turma = models.ForeignKey("Turma", on_delete=models.CASCADE)
+    alunos = models.ManyToManyField("User", blank=True)
+    saldo = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.nome
+
+class Convite(models.Model):
+    valido = models.BooleanField(default=True)
+    expiracao = models.DateTimeField(blank=True, null=True)
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)
+    destinatario = models.ForeignKey(User, related_name='convites_recebidos', on_delete=models.CASCADE)
+    remetente = models.ForeignKey(User, related_name='convites_enviados', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Convite para {self.destinatario.username} do grupo {self.grupo.nome}"
 
 class Turma(models.Model):
     disciplina = models.CharField(max_length=50)
@@ -53,12 +71,11 @@ class MovimentacaoSaldo(models.Model):
         ("D", "Débito"),
     ]
 
-    data_movimentacao = models.DateField(auto_now_add=True)
+    data_movimentacao = models.DateTimeField(auto_now_add=True)
     valor = models.IntegerField()
     tipo = models.CharField(max_length=1, choices=TIPOS_MOVIMENTACAO)
     aluno = models.ForeignKey(User, on_delete=models.CASCADE, related_name="movimentacoes", limit_choices_to={'tipo': 'aluno'})  # Relacionamento com Aluno
     turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
-    descricao = models.TextField(max_length=255)
 
     def __str__(self):
         return f"{self.tipo} - {self.valor} ({self.aluno.username})"  # Exibe o username do aluno

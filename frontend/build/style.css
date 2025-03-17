@@ -27,17 +27,37 @@
 
 body {
   margin: 0;
-  font-family: 'Lora', serif;
-  background-color: var(--background);
-  color:var(--primaria);
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #bdbdbd;
 }
+  /*background-color: var(--background);*/
+  /*color:var(--primaria);*/
 
 a {
   font-family: 'Roboto', sans-serif;
 }
 
+div#root {
+  width: 24.375rem;
+  min-height: 52.75rem;
+  background: #002555;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  position: relative;
+  padding: 4rem 0;
+}
+
 div.container {
-  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 3rem 0;
 }
 
 h1,h2,h3,h4,h5,h6{

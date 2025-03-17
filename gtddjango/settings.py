@@ -25,10 +25,15 @@ SECRET_KEY = 'django-insecure-d&1c8-p%il*1fp%!6a5ndtw=1be1$@qbo6lj$6^uvvu97vbdzk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.7', '192.168.56.1', '192.168.1.20', '192.168.1.8', 'gtddjango.fly.dev']
+ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:3005', 'localhost:3005', '192.168.1.7', '192.168.56.1', '192.168.1.20',
+                 '192.168.1.8', 'gtddjango.fly.dev']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://gtddjango.fly.dev',
+    'http://127.0.0.1:3005',
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+    'http://localhost:3005',
 ]
 
 # Application definition
@@ -54,13 +59,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
-
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Minha API',
     'DESCRIPTION': 'Descrição da API',
@@ -84,10 +89,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True  # Não permite qualquer origem (por segurança)
@@ -99,6 +104,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
     "content-type",
     "authorization",
+    "x-csrftoken",
 ]
 
 ROOT_URLCONF = 'gtddjango.urls'
@@ -123,19 +129,19 @@ WSGI_APPLICATION = 'gtddjango.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DATA_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': '/data/db.sqlite3',
+#         'NAME': DATA_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '/data/db.sqlite3',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

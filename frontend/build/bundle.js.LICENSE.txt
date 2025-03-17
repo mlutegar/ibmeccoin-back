@@ -1,3 +1,5 @@
+/*! js-cookie v3.0.5 | MIT */
+
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
 /**
@@ -160,18 +162,13 @@
  */
 
 /**
- * @remix-run/router v1.13.0
- *
- * Copyright (c) Remix Software Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
+ * @license qrcode.react
+ * Copyright (c) Paul O'Shannessy
+ * SPDX-License-Identifier: ISC
  */
 
 /**
- * React Router DOM v6.20.0
+ * @remix-run/router v1.13.0
  *
  * Copyright (c) Remix Software Inc.
  *
