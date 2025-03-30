@@ -57,13 +57,25 @@ class Turma(models.Model):
 class TokenIC(models.Model):
     quantidade_ic = models.IntegerField()
     expiracao = models.DateTimeField()
+    label = models.CharField(max_length=50)  # Novo campo para a label
 
     def __str__(self):
-        return f"Token de {self.quantidade_ic} expira em {self.expiracao}"
+        return f"Token de {self.quantidade_ic} para '{self.label}' expira em {self.expiracao}"
 
     def expirado(self):
         return now() > self.expiracao
 
+class TokenUso(models.Model):
+    aluno = models.ForeignKey(User, on_delete=models.CASCADE)
+    label = models.CharField(max_length=50)
+    token = models.ForeignKey(TokenIC, on_delete=models.CASCADE)
+    usado_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("aluno", "label")  # Garante uso único da label por aluno
+
+    def __str__(self):
+        return f"{self.aluno.username} usou token com label '{self.label}' em {self.usado_em}"
 
 class MovimentacaoSaldo(models.Model):
     TIPOS_MOVIMENTACAO = [

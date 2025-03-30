@@ -24,10 +24,10 @@ Comando para fazer push dos arquivos:
 $ git push --no-verify
 ```
 
-# DJANGO 
+# DJANGO
 
 Para criar um aplicativo:
-    
+
 ```bash
 $ python manage.py startapp backend
 ```
@@ -88,6 +88,12 @@ Para instalar o fly, execute o comando abaixo:
 iwr https://fly.io/install.ps1 -useb | iex
 ```
 
+Para se logar:
+
+    ```bash
+    fly auth login
+    ```
+
 Para verificar se o fly foi instalado corretamente, execute o comando abaixo:
 
 ```bash
@@ -123,6 +129,7 @@ Para entrar no shell do fly, execute o comando abaixo:
 ```bash
 fly ssh console
 ```
+
 Para sair bastar digitar `exit` e pressionar `Enter`.
 
 # Python
