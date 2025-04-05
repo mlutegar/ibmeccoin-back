@@ -9,12 +9,12 @@ from .serializers import TokenICSerializer, GrupoSerializer, AlunoSerializer, Co
     MovimentacaoSaldoSerializer, CadastroSerializer
 
 class ProcessarToken(APIView):
-    permission_classes = [IsAuthenticated]  # Garante que o usuário esteja autenticado
+    permission_classes = [AllowAny]  # Garante que o usuário esteja autenticado
 
     def post(self, request, token_id):
-        aluno = request.user  # Obtém o aluno a partir do usuário autenticado
-
-        # Busca o token pelo ID informado
+        turma_id = request.data.get("turma_id", 1)
+        aluno_id = request.data.get("aluno_id")
+        user = User.objects.get(id=aluno_id)
         try:
             token = TokenIC.objects.get(id=token_id)
         except TokenIC.DoesNotExist:
@@ -23,16 +23,15 @@ class ProcessarToken(APIView):
 
         # Tenta criar o registro de uso do token (garantido pelo unique_together em TokenUso)
         try:
-            TokenUso.objects.create(aluno=aluno, label=token.label, token=token)
+            TokenUso.objects.create(aluno=user, label=token.label, token=token)
         except IntegrityError:
             return Response({"erro": "Token com esta label já foi utilizado por este aluno."},
                             status=status.HTTP_400_BAD_REQUEST)
 
-        turma_id = request.data.get("turma_id", 1)
         movimentacao = MovimentacaoSaldo.objects.create(
             valor=token.quantidade_ic,
             tipo="C",      # 'C' para crédito
-            aluno=aluno,
+            aluno=user,
             turma_id=turma_id
         )
 

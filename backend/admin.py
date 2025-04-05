@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Turma, MovimentacaoSaldo, TokenIC, Grupo, Convite
+from .models import User, Turma, MovimentacaoSaldo, TokenIC, Grupo, Convite, TokenUso
 
 
 # Personalizando a exibição do modelo User no admin
@@ -27,3 +27,4 @@ admin.site.register(MovimentacaoSaldo, MovimentacaoSaldoAdmin)
 admin.site.register(TokenIC)
 admin.site.register(Grupo)
 admin.site.register(Convite)
+admin.site.register(TokenUso)

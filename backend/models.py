@@ -67,7 +67,7 @@ class TokenIC(models.Model):
 
 class TokenUso(models.Model):
     aluno = models.ForeignKey(User, on_delete=models.CASCADE)
-    label = models.CharField(max_length=50)
+    label = models.CharField(max_length=50, default="")
     token = models.ForeignKey(TokenIC, on_delete=models.CASCADE)
     usado_em = models.DateTimeField(auto_now_add=True)
 
