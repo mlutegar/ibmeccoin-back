@@ -1,4 +1,5 @@
-from django.db import IntegrityError
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, generics, status
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
@@ -8,25 +9,51 @@ from .models import User, MovimentacaoSaldo, TokenIC, Grupo, Convite, TokenUso
 from .serializers import TokenICSerializer, GrupoSerializer, AlunoSerializer, ConviteSerializer, \
     MovimentacaoSaldoSerializer, CadastroSerializer
 
-class ProcessarToken(APIView):
-    permission_classes = [AllowAny]  # Garante que o usuário esteja autenticado
 
-    def post(self, request, token_id):
+class ProcessarToken(APIView):
+    permission_classes = [AllowAny]
+
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['token_id', 'aluno_id'],
+            properties={
+                'token_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID do token'),
+                'aluno_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID do aluno'),
+                'turma_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID da turma', default=1),
+            }
+        ),
+        responses={
+            200: openapi.Response('Sucesso', schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'sucesso': openapi.Schema(type=openapi.TYPE_STRING),
+                    'movimentacao': openapi.Schema(type=openapi.TYPE_OBJECT),
+                }
+            )),
+            400: 'Erro de requisição inválida',
+            404: 'Token ou usuário não encontrado',
+        },
+        operation_description="Processa um token, creditando o valor ao aluno especificado"
+    )
+
+    def post(self, request):  # Remove token_id parameter
+        token_id = request.data.get("token_id")  # Get token_id from request body
         turma_id = request.data.get("turma_id", 1)
         aluno_id = request.data.get("aluno_id")
-        user = User.objects.get(id=aluno_id)
+
+        # Validate token_id is provided
+        if not token_id:
+            return Response({"erro": "token_id é obrigatório"},
+                            status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            token = TokenIC.objects.get(id=token_id)
-        except TokenIC.DoesNotExist:
-            return Response({"erro": "Token inválido ou não encontrado."},
+            user = User.objects.get(id=aluno_id)
+        except User.DoesNotExist:
+            return Response({"erro": "Usuário não encontrado"},
                             status=status.HTTP_404_NOT_FOUND)
 
-        # Tenta criar o registro de uso do token (garantido pelo unique_together em TokenUso)
-        try:
-            TokenUso.objects.create(aluno=user, label=token.label, token=token)
-        except IntegrityError:
-            return Response({"erro": "Token com esta label já foi utilizado por este aluno."},
-                            status=status.HTTP_400_BAD_REQUEST)
+        token = TokenIC.objects.filter(id=token_id).first()
 
         movimentacao = MovimentacaoSaldo.objects.create(
             valor=token.quantidade_ic,
