@@ -123,7 +123,7 @@ WSGI_APPLICATION = 'gtddjango.wsgi.application'
 #         'NAME': DATA_DIR / 'db.sqlite3',
 #     }
 # }
-
+#
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

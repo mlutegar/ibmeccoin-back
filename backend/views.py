@@ -55,6 +55,33 @@ class ProcessarToken(APIView):
 
         token = TokenIC.objects.filter(id=token_id).first()
 
+        if not token:
+            return Response({"erro": "Token não encontrado"},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        if token.expirado():
+            return Response({"erro": "Token expirado"},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Verifica se já existe um registro de uso para este aluno e a label do token
+            token_ja_usado = TokenUso.objects.filter(aluno=user, label=token.label).exists()
+
+            if token_ja_usado:
+                return Response({"erro": "Este aluno já utilizou um token com esta label"},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+            # Se não foi usado, registre o uso
+            TokenUso.objects.create(
+                aluno=user,
+                token=token,
+                label=token.label
+            )
+
+        except Exception as e:
+            return Response({"erro": f"Erro ao verificar uso do token: {str(e)}"},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         movimentacao = MovimentacaoSaldo.objects.create(
             valor=token.quantidade_ic,
             tipo="C",      # 'C' para crédito
