@@ -1,7 +1,8 @@
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
-from .views import TokenICViewSet, GrupoViewSet, AlunoViewSet, ConviteViewSet, MovimentacaoSaldoViewSet, CadastroView
+from .views import TokenICViewSet, GrupoViewSet, AlunoViewSet, ConviteViewSet, MovimentacaoSaldoViewSet, CadastroView, \
+    RecuperacaoSenhaView, AlteracaoSenhaView
 
 router = DefaultRouter()
 router.register(r'tokens', TokenICViewSet)
@@ -13,4 +14,6 @@ router.register(r'movimentacoes', MovimentacaoSaldoViewSet)
 urlpatterns = [
                   path('login/', obtain_auth_token, name='api_token_auth'),
                   path('cadastro/', CadastroView.as_view(), name='cadastro'),
+                  path('recuperar-senha/', RecuperacaoSenhaView.as_view(), name='recuperar-senha'),
+                  path('alterar-senha/', AlteracaoSenhaView.as_view(), name='alterar-senha'),
               ] + router.urls

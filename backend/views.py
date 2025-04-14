@@ -1,13 +1,74 @@
+from django.conf import settings
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, generics, status
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import User, MovimentacaoSaldo, TokenIC, Grupo, Convite, TokenUso
 from .serializers import TokenICSerializer, GrupoSerializer, AlunoSerializer, ConviteSerializer, \
     MovimentacaoSaldoSerializer, CadastroSerializer
+
+
+class RecuperacaoSenhaView(APIView):
+    permission_classes = [AllowAny]  # Permite acesso sem autenticação
+
+    def post(self, request, *args, **kwargs):
+        email = request.data.get("email")
+        if not email:
+            return Response({"error": "O e-mail é obrigatório!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"error": "Usuário não encontrado com esse e-mail!"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Gerar token de recuperação de senha
+        token = default_token_generator.make_token(user)
+        reset_link = f"https://gtddjango.fly.dev/#/trocar-senha/?token={token}&email={email}"
+
+        # Enviar e-mail para o usuário
+        send_mail(
+            'Recuperação de Senha',
+            f'Clique no link para redefinir sua senha: {reset_link}',
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+            fail_silently=False,
+        )
+
+        return Response({"message": "Link de recuperação enviado para o e-mail!"}, status=status.HTTP_200_OK)
+
+
+class AlteracaoSenhaView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        # Obter token e e-mail da requisição
+        token = request.data.get("token")
+        email = request.data.get("email")
+        nova_senha = request.data.get("nova_senha")
+
+        if not token or not email or not nova_senha:
+            return Response({"error": "Todos os campos são obrigatórios!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Buscar usuário pelo e-mail
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"error": "Usuário não encontrado!"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Verificar se o token é válido
+        if not default_token_generator.check_token(user, token):
+            return Response({"error": "Token inválido ou expirado!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Alterar a senha do usuário
+        user.set_password(nova_senha)
+        user.save()
+
+        return Response({"message": "Senha alterada com sucesso!"}, status=status.HTTP_200_OK)
 
 
 class ProcessarToken(APIView):

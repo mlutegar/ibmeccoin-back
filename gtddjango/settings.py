@@ -169,3 +169,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Servidor SMTP do Gmail
+EMAIL_PORT = 587                # Porta para TLS
+EMAIL_USE_TLS = True            # Usar conexão TLS (obrigatório pelo Gmail)
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'ibmeclabs@gmail.com'
+EMAIL_HOST_PASSWORD = 'apjr agyk phfp fusp'
+DEFAULT_FROM_EMAIL = 'ibmeclabs@gmail.com'
