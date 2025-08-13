@@ -15,7 +15,7 @@ COPY . /app/
 
 # Etapa 6: Configura variáveis de ambiente
 ENV PYTHONUNBUFFERED=1
-ENV DJANGO_SETTINGS_MODULE=gtddjango.settings
+ENV DJANGO_SETTINGS_MODULE=ibmeccoin.settings
 
 # Etapa 7: Exponha a porta 8000 para acessar o servidor Django
 EXPOSE 8000

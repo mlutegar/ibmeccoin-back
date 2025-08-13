@@ -14,10 +14,10 @@ SECRET_KEY = 'django-insecure-d&1c8-p%il*1fp%!6a5ndtw=1be1$@qbo6lj$6^uvvu97vbdzk
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:3005', 'localhost:3005', '192.168.1.7', '192.168.56.1', '192.168.1.20',
-                 '192.168.1.8', 'gtddjango.fly.dev']
+                 '192.168.1.8', 'ibmeccoin.fly.dev']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://gtddjango.fly.dev',
+    'https://ibmeccoin.fly.dev',
     'http://127.0.0.1:3005',
     'http://127.0.0.1:3000',
     'http://localhost:3000',
@@ -95,7 +95,7 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
 ]
 
-ROOT_URLCONF = 'gtddjango.urls'
+ROOT_URLCONF = 'ibmeccoin.urls'
 
 TEMPLATES = [
     {
@@ -113,7 +113,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gtddjango.wsgi.application'
+WSGI_APPLICATION = 'ibmeccoin.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

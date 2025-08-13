@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/gtddjango.iml" filepath="$PROJECT_DIR$/.idea/gtddjango.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ibmeccoin.iml" filepath="$PROJECT_DIR$/.idea/ibmeccoin.iml" />
     </modules>
   </component>
 </project>

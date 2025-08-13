@@ -28,7 +28,7 @@ class RecuperacaoSenhaView(APIView):
 
         # Gerar token de recuperação de senha
         token = default_token_generator.make_token(user)
-        reset_link = f"https://gtddjango.fly.dev/#/trocar-senha/?token={token}&email={email}"
+        reset_link = f"https://ibmeccoin.fly.dev/#/trocar-senha/?token={token}&email={email}"
 
         # Enviar e-mail para o usuário
         send_mail(

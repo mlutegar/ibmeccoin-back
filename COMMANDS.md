@@ -65,19 +65,19 @@ $ python manage.py createsuperuser
 Para criar um docker build, execute o comando abaixo:
 
 ```bash
-docker build -t mlutegar/gtddjango:v1 .
+docker build -t mlutegar/ibmeccoin:v1 .
 ```
 
 Para rodar o docker, execute o comando abaixo:
 
 ```bash
-docker run -p 8000:8000 mlutegar/gtddjango:v1
+docker run -p 8000:8000 mlutegar/ibmeccoin:v1
 ```
 
 Para dá um push no docker, execute o comando abaixo:
 
 ```bash
-docker push mlutegar/gtddjango:v1
+docker push mlutegar/ibmeccoin:v1
 ```
 
 # FLY
