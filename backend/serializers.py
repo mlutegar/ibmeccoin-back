@@ -1,7 +1,7 @@
 from datetime import timedelta
 from django.utils.timezone import now
 from rest_framework import serializers, viewsets
-from .models import User, MovimentacaoSaldo, TokenIC, Grupo, Convite
+from .models import User, MovimentacaoSaldo, TokenIC, Grupo, Convite, ProdutoLoja
 
 
 class SaldoAlunoSerializer(serializers.Serializer):
@@ -32,6 +32,7 @@ class TokenICSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['expiracao'] = now() + timedelta(seconds=110)
         return super().create(validated_data)
+
 
 class CadastroSerializer(serializers.ModelSerializer):
     class Meta:
@@ -90,3 +91,17 @@ class GrupoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grupo
         fields = '__all__'
+
+
+class ProdutoLojaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProdutoLoja
+        fields = '__all__'
+        extra_kwargs = {
+            'nome': {'required': True},
+            'preco': {'required': True},
+            'quantidade': {'required': True}
+        }
+
+    def create(self, validated_data):
+        return super().create(validated_data)  # Apenas cria o produto com os dados validados

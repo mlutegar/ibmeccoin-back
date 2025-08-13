@@ -8,9 +8,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import User, MovimentacaoSaldo, TokenIC, Grupo, Convite, TokenUso
+from .models import User, MovimentacaoSaldo, TokenIC, Grupo, Convite, TokenUso, ProdutoLoja
 from .serializers import TokenICSerializer, GrupoSerializer, AlunoSerializer, ConviteSerializer, \
-    MovimentacaoSaldoSerializer, CadastroSerializer
+    MovimentacaoSaldoSerializer, CadastroSerializer, ProdutoLojaSerializer
 
 
 class RecuperacaoSenhaView(APIView):
@@ -196,6 +196,15 @@ class ConviteViewSet(viewsets.ModelViewSet):
 class GrupoViewSet(viewsets.ModelViewSet):
     queryset = Grupo.objects.all()
     serializer_class = GrupoSerializer
+    permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class ProdutoLojaViewSet(viewsets.ModelViewSet):
+    queryset = ProdutoLoja.objects.all()
+    serializer_class = ProdutoLojaSerializer
     permission_classes = [AllowAny]
 
     def perform_create(self, serializer):

@@ -77,6 +77,17 @@ class TokenUso(models.Model):
     def __str__(self):
         return f"{self.aluno.username} usou token com label '{self.label}' em {self.usado_em}"
 
+
+class ProdutoLoja(models.Model):
+    nome = models.CharField(max_length=100)
+    preco = models.IntegerField()
+    descricao = models.TextField(blank=True, null=True)
+    disponivel = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.nome} - {self.preco} ICs"
+
+
 class MovimentacaoSaldo(models.Model):
     TIPOS_MOVIMENTACAO = [
         ("C", "Crédito"),
